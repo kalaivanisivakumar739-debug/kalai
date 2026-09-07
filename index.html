@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalaivani S — Finance &amp; Accounts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0D1013;
+    --surface:#151A20;
+    --surface-2:#1B222A;
+    --paper:#F3EFE6;
+    --paper-dim:#B9BCC2;
+    --brass:#C6A25C;
+    --line:#2B323C;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  ::selection{background:var(--brass); color:var(--ink);}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--brass);
+    outline-offset:3px;
+  }
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(13,16,19,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:68px;
+  }
+  .brand{font-family:'Fraunces', serif; font-size:1.15rem;}
+  .navlinks{display:flex; gap:34px; font-size:0.92rem; color:var(--paper-dim);}
+  .navlinks a{transition:color .2s;}
+  .navlinks a:hover{color:var(--paper);}
+  .navtoggle{display:none; background:none; border:none; color:var(--paper); font-size:1.5rem; cursor:pointer;}
+
+  /* HERO */
+  header.hero{
+    padding:120px 0 100px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .ledger-lines{
+    position:absolute; inset:0; z-index:0; opacity:0.5;
+    background-image: repeating-linear-gradient(
+      to bottom, transparent, transparent 47px, var(--line) 48px
+    );
+    mask-image: linear-gradient(to bottom, transparent, black 20%, black 70%, transparent);
+  }
+  .hero-inner{position:relative; z-index:1; display:grid; grid-template-columns:1.3fr 1fr; gap:64px; align-items:end;}
+  .hero-kicker{
+    color:var(--brass); font-size:0.85rem; letter-spacing:0.04em; margin-bottom:22px;
+  }
+  h1.display{
+    font-size:clamp(2.6rem, 5.4vw, 4.4rem);
+    line-height:1.04;
+  }
+  h1.display em{
+    font-style:italic; color:var(--brass); font-weight:400;
+  }
+  .hero-sub{
+    margin-top:26px; max-width:46ch; color:var(--paper-dim); font-size:1.05rem;
+  }
+  .hero-cta{
+    margin-top:38px; display:flex; gap:16px; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block; padding:13px 26px; border-radius:2px; font-size:0.92rem; font-weight:500;
+    transition:all .2s ease;
+  }
+  .btn-primary{background:var(--brass); color:var(--ink);}
+  .btn-primary:hover{background:#d9b671;}
+  .btn-outline{border:1px solid var(--line); color:var(--paper);}
+  .btn-outline:hover{border-color:var(--brass); color:var(--brass);}
+
+  .ledger-card{
+    background:var(--surface); border:1px solid var(--line); padding:28px;
+  }
+  .ledger-card .row{
+    display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line); font-size:0.92rem;
+  }
+  .ledger-card .row:last-child{border-bottom:none;}
+  .ledger-card .row span:first-child{color:var(--paper-dim);}
+  .ledger-card .total{
+    display:flex; justify-content:space-between; margin-top:16px; padding-top:16px;
+    border-top:1px solid var(--brass); font-family:'Fraunces', serif; font-size:1.1rem;
+  }
+
+  /* SECTION SHARED */
+  section{padding:96px 0; border-bottom:1px solid var(--line);}
+  .section-head{display:grid; grid-template-columns:1fr 2fr; gap:40px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(1.8rem, 3vw, 2.4rem);}
+  .section-head p{color:var(--paper-dim); max-width:52ch; align-self:end;}
+  .idx{color:var(--brass); font-size:0.85rem; margin-bottom:10px;}
+
+  /* ABOUT */
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px;}
+  .about-grid p{color:var(--paper-dim); margin-bottom:18px; font-size:1.02rem;}
+  .about-grid p strong{color:var(--paper); font-weight:500;}
+  .stat-block{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .stat{border-left:1px solid var(--brass); padding-left:18px;}
+  .stat .num{font-family:'Fraunces', serif; font-size:2.2rem; color:var(--paper);}
+  .stat .label{color:var(--paper-dim); font-size:0.88rem; margin-top:4px;}
+
+  /* SKILLS */
+  .skills-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  .skill-col h3{font-size:1.15rem; margin-bottom:22px; font-weight:500; color:var(--brass);}
+  .skill-list{list-style:none;}
+  .skill-list li{
+    padding:14px 0; border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; font-size:0.98rem;
+  }
+  .skill-list li:last-child{border-bottom:none;}
+
+  /* EXPERIENCE */
+  .exp-card{
+    display:grid; grid-template-columns:200px 1fr; gap:40px;
+    background:var(--surface); border:1px solid var(--line); padding:36px;
+  }
+  .exp-card .role{font-family:'Fraunces', serif; font-size:1.4rem; margin-bottom:6px;}
+  .exp-card .org{color:var(--brass); font-size:0.95rem; margin-bottom:16px;}
+  .exp-card .desc{color:var(--paper-dim); max-width:56ch;}
+  .exp-date{color:var(--paper-dim); font-size:0.9rem; padding-top:6px;}
+
+  /* CERTIFICATIONS */
+  .cert-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .cert-item{background:var(--ink); padding:28px 24px;}
+  .cert-item .cname{font-size:1rem; margin-bottom:6px;}
+  .cert-item .cyear{color:var(--paper-dim); font-size:0.85rem;}
+
+  /* EDUCATION TIMELINE */
+  .timeline{position:relative; padding-left:36px;}
+  .timeline::before{
+    content:''; position:absolute; left:6px; top:6px; bottom:6px; width:1px; background:var(--line);
+  }
+  .t-item{position:relative; padding-bottom:44px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item::before{
+    content:''; position:absolute; left:-36px; top:6px; width:11px; height:11px;
+    border-radius:50%; background:var(--ink); border:2px solid var(--brass);
+  }
+  .t-item .t-year{color:var(--brass); font-size:0.88rem; margin-bottom:6px;}
+  .t-item .t-school{font-family:'Fraunces', serif; font-size:1.2rem; margin-bottom:4px;}
+  .t-item .t-meta{color:var(--paper-dim); font-size:0.92rem;}
+
+  /* CONTACT */
+  #contact{border-bottom:none;}
+  .contact-inner{display:grid; grid-template-columns:1.2fr 1fr; gap:64px; align-items:start;}
+  .contact-inner h2{font-size:clamp(2rem, 4vw, 3rem); max-width:12ch; line-height:1.1;}
+  .contact-list{list-style:none; margin-top:32px;}
+  .contact-list li{padding:16px 0; border-top:1px solid var(--line); display:flex; justify-content:space-between; font-size:0.98rem;}
+  .contact-list li:last-child{border-bottom:1px solid var(--line);}
+  .contact-list a:hover{color:var(--brass);}
+
+  footer{padding:32px 0; text-align:center; color:var(--paper-dim); font-size:0.85rem;}
+
+  @media (max-width: 860px){
+    .navlinks{display:none;}
+    .hero-inner{grid-template-columns:1fr; gap:44px;}
+    .section-head{grid-template-columns:1fr; gap:16px;}
+    .about-grid{grid-template-columns:1fr; gap:36px;}
+    .skills-grid{grid-template-columns:1fr; gap:40px;}
+    .exp-card{grid-template-columns:1fr; gap:12px;}
+    .cert-grid{grid-template-columns:1fr 1fr;}
+    .contact-inner{grid-template-columns:1fr; gap:40px;}
+  }
+  @media (max-width: 480px){
+    .cert-grid{grid-template-columns:1fr;}
+    .wrap{padding:0 20px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Kalaivani S.</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="ledger-lines"></div>
+  <div class="wrap hero-inner">
+    <div>
+      <div class="hero-kicker">Finance &amp; Accounts — Cuddalore, Tamil Nadu</div>
+      <h1 class="display">Turning figures into <em>clear</em> decisions.</h1>
+      <p class="hero-sub">B.Com graduate currently pursuing an MBA in Finance, with hands-on exposure to financial accounting and a steady interest in reading a business through its numbers.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Get in touch</a>
+        <a href="#experience" class="btn btn-outline">See background</a>
+      </div>
+    </div>
+    <div class="ledger-card">
+      <div class="row"><span>Education</span><span>B.Com, MBA (Finance)</span></div>
+      <div class="row"><span>Internship</span><span>Shanthi Furniture Co.</span></div>
+      <div class="row"><span>Tools</span><span>Tally Prime, Excel</span></div>
+      <div class="row"><span>Certifications</span><span>5</span></div>
+      <div class="total"><span>Status</span><span>Open to opportunities</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="idx">About</div>
+      <h2>Grounded in the fundamentals, building toward finance.</h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>I completed my <strong>B.Com (General)</strong> at Immaculate College for Women, Annamalai University, and I'm currently pursuing an <strong>MBA in Finance</strong> at Shrimati Indira Gandhi College, Tiruchirapalli.</p>
+        <p>Along the way, I've worked on financial accounting and Tally Prime through internship experience, and I write clearly enough to handle documentation and content work alongside the numbers. I'm looking for an entry-level role where I can put that combination — analytical thinking and steady follow-through — to use.</p>
+      </div>
+      <div class="stat-block">
+        <div class="stat"><div class="num">73%</div><div class="label">B.Com, Annamalai University</div></div>
+        <div class="stat"><div class="num">73%</div><div class="label">MBA Finance (ongoing)</div></div>
+        <div class="stat"><div class="num">2025</div><div class="label">Latest certification</div></div>
+        <div class="stat"><div class="num">01</div><div class="label">Finance internship completed</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="idx">Skills</div>
+      <h2>What I bring to the ledger.</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-col">
+        <h3>Technical &amp; domain</h3>
+        <ul class="skill-list">
+          <li>MS Excel</li>
+          <li>MS Word</li>
+          <li>Tally Prime</li>
+          <li>Financial Accounting</li>
+          <li>Content Writing</li>
+        </ul>
+      </div>
+      <div class="skill-col">
+        <h3>Working style</h3>
+        <ul class="skill-list">
+          <li>Analytical thinking &amp; problem solving</li>
+          <li>Adaptability &amp; learning agility</li>
+          <li>Time &amp; priority management</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="idx">Experience</div>
+      <h2>Where I've applied it so far.</h2>
+    </div>
+    <div class="exp-card">
+      <div class="exp-date">Internship</div>
+      <div>
+        <div class="role">Finance Intern</div>
+        <div class="org">Shanthi Furniture Company</div>
+        <div class="desc">Supported financial accounting tasks and got practical exposure to day-to-day bookkeeping, giving me a working foundation in Tally Prime and account handling before starting my MBA.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="idx">Certifications</div>
+      <h2>Continuing to build on the fundamentals.</h2>
+    </div>
+    <div class="cert-grid">
+      <div class="cert-item"><div class="cname">Naan Mudhalvan</div><div class="cyear">2025</div></div>
+      <div class="cert-item"><div class="cname">Microsoft Office Essentials</div><div class="cyear">Certified</div></div>
+      <div class="cert-item"><div class="cname">Oracle Certified</div><div class="cyear">Certified</div></div>
+      <div class="cert-item"><div class="cname">Effective English</div><div class="cyear">Certified</div></div>
+      <div class="cert-item"><div class="cname">E-commerce Analyst</div><div class="cyear">Certified</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="idx">Education</div>
+      <h2>The path so far.</h2>
+    </div>
+    <div class="timeline">
+      <div class="t-item">
+        <div class="t-year">2020</div>
+        <div class="t-school">SSLC (10th)</div>
+        <div class="t-meta">Anandhan Memorial Matric Higher Secondary School — 77%</div>
+      </div>
+      <div class="t-item">
+        <div class="t-year">2022</div>
+        <div class="t-school">HSC (12th)</div>
+        <div class="t-meta">Anandhan Memorial Matric Higher Secondary School — 59%</div>
+      </div>
+      <div class="t-item">
+        <div class="t-year">2022 – 2025</div>
+        <div class="t-school">B.Com (General)</div>
+        <div class="t-meta">Immaculate College for Women, Annamalai University — 73%</div>
+      </div>
+      <div class="t-item">
+        <div class="t-year">Ongoing</div>
+        <div class="t-school">MBA (Finance)</div>
+        <div class="t-meta">Shrimati Indira Gandhi College, Tiruchirapalli — 73%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-inner">
+    <div>
+      <div class="idx">Contact</div>
+      <h2>Let's talk about where I can help.</h2>
+      <p style="color:var(--paper-dim); margin-top:20px; max-width:42ch;">Open to entry-level roles in finance, accounts, or content — reach out directly, I reply quickly.</p>
+    </div>
+    <ul class="contact-list">
+      <li><span>Phone</span><a href="tel:+917418574331">+91 74185 74331</a></li>
+      <li><span>Email</span><a href="mailto:kalaivanisivakumar739@gmail.com">kalaivanisivakumar739@gmail.com</a></li>
+      <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/kalaivani-sivakumar-a47a83418" target="_blank" rel="noopener">kalaivani-sivakumar</a></li>
+      <li><span>Location</span><span>Cuddalore, Tamil Nadu</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">&copy; 2026 Kalaivani S. Built with care.</div>
+</footer>
+
+</body>
+</html>
